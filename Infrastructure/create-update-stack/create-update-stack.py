@@ -1,15 +1,19 @@
 import boto3
 import argparse
 import time
+import logging
+
 
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
 parser.add_argument('--s3path', type=str, help='Provide the s3 file path')
+parser.add_argument('--stack_operation', type=str, help='provide the stack operation')
 
-args = parser.parse_args();
-path=args.s3path;
-stack_name = args.env + '-' + args.filename;
+args = parser.parse_args()
+path=args.s3path
+stack_name = args.env + '-' + args.filename
+stack_operation=args.stack_operation
 
 client = boto3.client('cloudformation', region_name='us-east-1')
 
@@ -23,52 +27,33 @@ def create_stack(StackName,TemplateURL):
     )
 
 
+def check_stack_status(stack_name,stack_operation):
+    response = client.describe_stacks(
+        StackName=stack_name
+
+    )
+
+    if stack_operation == 'CREATE':
+        stack_chk_value = 'CREATE_COMPLETE'
+    elif stack_operation == 'UPDATE':
+        stack_chk_value = 'UPDATE_COMPLETE'
+
+    chk_status=response['Stacks'][0]['StackStatus']
+    i=0
+    while i<60:
+        try:
+            if chk_status == stack_chk_value:
+                logging.info("Stack status is {0}".format(stack_chk_value))
+        except:
+            logging.error("stack status has an error")
+            raise
+    i+=1
 
 def main():
     print("main started")
-    create_stack(StackName,TemplateURL);
-    check_status(StackName,TemplateURL);
+    create_stack(StackName, TemplateURL)
+    check_stack_status(StackName, stack_operation)
 
-
-main()
-#
-# def delete_stack(stack_name,path):
-#     response = client.delete_stack(
-#         TemplateUrl=path,
-#         StackName=stack_name
-#     )
-# def update_stack(stack_name,path):
-#     response = client.update_stack(
-#         TemplateUrl=path,
-#         StackName=stack_name
-#     )
-
-def check_status(StackName,TemplateURL):
-    response = client.describe_stacks(
-        TemplateURL=path,
-        StackName=stack_name)
-
-    for StackStatus in create_stack(StackName,TemplateURL):
-        if [Stacks][StackStatus]!='CREATE COMPLETE':
-            print(StackStatus)
-            time.sleep(200);
-        elif [Stacks][StackStatus]=='CREATE COMPLETE':
-            print(StackStatus)
-
-
-
-
-
-
-
-
-
-
-
-
-# def update_stack(stack_name,path):
-#     response_update_stack = client.update_stack(
-#         StackName=event['stackname'],
-#         TemplateURL=event['url']
-#     )
+if __name__ == "__main__":
+    main()
 
