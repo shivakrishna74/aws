@@ -47,12 +47,20 @@ def check_stack_status(stack_name,stack_chk_value):
             logging.error("stack status has an error")
             raise
     i+=1
+    return chk_status
 
 def main():
     print("main started")
     if stack_operation == 'CREATE':
-        delete_stack(StackName)
-        check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
+        response = client.describe_stacks(
+            StackName=stack_name
+
+        )
+
+        chk_status = response['Stacks'][0]['StackStatus']
+        if chk_status != 'DELETE_COMPLETE':
+            delete_stack(StackName)
+            check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
         create_stack(StackName, TemplateURL)
         check_stack_status(StackName, stack_chk_value='CREATE_COMPLETE')
 
