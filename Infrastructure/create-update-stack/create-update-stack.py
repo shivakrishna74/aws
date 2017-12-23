@@ -6,8 +6,6 @@ parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
 parser.add_argument('--s3path', type=str, help='Provide the s3 file path')
-StackStatus= 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS'
-
 
 
 args = parser.parse_args()
