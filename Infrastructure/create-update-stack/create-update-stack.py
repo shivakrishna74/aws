@@ -27,7 +27,7 @@ def create_stack(StackName,TemplateURL):
 def main():
     print("main started")
     create_stack(StackName,TemplateURL);
-    check_status(StackName)
+    check_status(StackName,TemplateURL)
 
 
 main()
