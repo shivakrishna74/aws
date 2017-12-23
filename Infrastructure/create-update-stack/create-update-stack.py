@@ -26,17 +26,16 @@ def create_stack(StackName,TemplateURL):
     StackName=stack_name
     )
 
+def delete_stack(StackName):
+    response = client.delete_stack(
+        StackName=StackName
+    )
 
-def check_stack_status(stack_name,stack_operation):
+def check_stack_status(stack_name,stack_chk_value):
     response = client.describe_stacks(
         StackName=stack_name
 
     )
-
-    if stack_operation == 'CREATE':
-        stack_chk_value = 'CREATE_COMPLETE'
-    elif stack_operation == 'UPDATE':
-        stack_chk_value = 'UPDATE_COMPLETE'
 
     chk_status=response['Stacks'][0]['StackStatus']
     i=0
@@ -51,8 +50,16 @@ def check_stack_status(stack_name,stack_operation):
 
 def main():
     print("main started")
-    create_stack(StackName, TemplateURL)
-    check_stack_status(StackName, stack_operation)
+    if stack_operation == 'CREATE':
+        delete_stack(StackName)
+        check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
+        create_stack(StackName, TemplateURL)
+        check_stack_status(StackName, stack_chk_value='CREATE_COMPLETE')
+
+    elif stack_operation == 'UPDATE':
+        stack_chk_value = 'UPDATE_COMPLETE'
+
+
 
 if __name__ == "__main__":
     main()
