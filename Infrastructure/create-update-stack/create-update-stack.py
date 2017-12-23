@@ -11,10 +11,10 @@ parser.add_argument('--s3path', type=str, help='Provide the s3 file path')
 args = parser.parse_args()
 path = args.s3path;
 stack_name = args.env + '-' + args.filename;
-TemplateURL=args.s3path;
+
 client = boto3.client('cloudformation', region_name='us-east-1')
 
-def create_stack(stack_name,TemplateURL):
+def create_stack(StackName,TemplateURL):
     response = client.create_stack(
         StackName=stack_name,
         TemplateURL=args.s3path
@@ -22,18 +22,18 @@ def create_stack(stack_name,TemplateURL):
     )
 
 
-def delete_stack(stack_name):
+def delete_stack(StackName):
     response = client.delete_stack(
         StackName=stack_name
 
     )
-def update_stack(stack_name,TemplateURL):
+def update_stack(StackName,TemplateURL):
     response = client.update_stack(
         StackName=stack_name,
         TemplateURL=args.s3path
     )
 
-def check_status(stack_name,TemplateURL):
+def check_status(StackName,TemplateURL):
     response = client.describe_stacks(
         StackName=stack_name)
     for StackStatus in stack_name:
