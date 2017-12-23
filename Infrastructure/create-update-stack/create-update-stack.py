@@ -10,7 +10,7 @@ args = parser.parse_args()
 stack_name=args.env+'-'+args.filename
 
 
-client = boto3.client('cloudformation')
+client = boto3.client('cloudformation', region_name='us-east-1')
 
 response = client.create_stack(
     StackName=stack_name,
