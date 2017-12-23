@@ -54,7 +54,7 @@ def main():
     print("main started")
     create_stack(StackName,TemplateURL);
 
-main();
+
 
 
 
