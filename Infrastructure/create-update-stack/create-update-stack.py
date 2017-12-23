@@ -26,7 +26,7 @@ def create_stack(stack_name,path):
 
 def main():
     print("main started")
-    create_stack(StackName,TemplateURL);
+    create_stack(stack_name,path);
 
 
 main()
