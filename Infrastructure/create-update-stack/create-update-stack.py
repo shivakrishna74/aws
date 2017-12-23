@@ -58,7 +58,7 @@ def main():
         )
 
         chk_status = response['Stacks'][0]['StackStatus']
-        if chk_status != 'DELETE_COMPLETE':
+        if chk_status in ['CREATE_IN_PROGRESS', 'CREATE_FAILED', 'CREATE_COMPLETE', 'ROLLBACK_IN_PROGRESS', 'ROLLBACK_FAILED', 'ROLLBACK_COMPLETE', 'DELETE_IN_PROGRESS', 'DELETE_FAILED', 'DELETE_COMPLETE', 'UPDATE_IN_PROGRESS', 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS', 'UPDATE_COMPLETE', 'UPDATE_ROLLBACK_IN_PROGRESS', 'UPDATE_ROLLBACK_FAILED', 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS', 'UPDATE_ROLLBACK_COMPLETE', 'REVIEW_IN_PROGRESS']:
             delete_stack(StackName)
             check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
         create_stack(StackName, TemplateURL)
