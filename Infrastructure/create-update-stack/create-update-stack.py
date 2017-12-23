@@ -52,7 +52,7 @@ def check_status(stack_name,path):
 
 def main():
     print("main started")
-    create_stack();
+    create_stack(stack_name,path);
 
 
 
