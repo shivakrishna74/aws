@@ -49,6 +49,7 @@ def check_stack_status(stack_name,stack_chk_value):
     i+=1
     return chk_status
 
+
 def main():
     print("main started")
     try:
@@ -68,7 +69,10 @@ def main():
                 check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
 
     except:
+        logging.error("something screwed up with the stack status")
         raise
+
+    logging.info("trying to create the stack")
 
     create_stack(StackName, TemplateURL)
     check_stack_status(StackName, stack_chk_value='CREATE_COMPLETE')
