@@ -27,7 +27,7 @@ def create_stack(StackName,TemplateURL):
 def main():
     print("main started")
     create_stack(StackName,TemplateURL);
-    check_status(StackName,TemplateURL)
+    check_status(StackName,TemplateURL);
 
 
 main()
@@ -43,7 +43,7 @@ main()
 #         StackName=stack_name
 #     )
 
-def check_status(stack_name,path):
+def check_status(StackName,TemplateURL):
     response = client.describe_stacks(
         TemplateURL=path,
         StackName=stack_name)
