@@ -17,7 +17,7 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 TemplateURL=path,
 StackName=stack_name
 
-def create_stack(stack_name,path):
+def create_stack(StackName,TemplateURL):
     response = client.create_stack(
     TemplateURL=path,
     StackName=stack_name
