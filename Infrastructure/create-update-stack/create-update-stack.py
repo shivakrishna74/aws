@@ -14,26 +14,26 @@ stack_name = args.env + '-' + args.filename;
 
 client = boto3.client('cloudformation', region_name='us-east-1')
 
-def create_stack(StackName,TemplateURL):
+def create_stack(stack_name,path):
     response = client.create_stack(
         StackName=stack_name,
-        TemplateURL=args.s3path
+        TemplateURL=path
 
     )
 
 
-def delete_stack(StackName):
+def delete_stack(stack_name):
     response = client.delete_stack(
         StackName=stack_name
 
     )
-def update_stack(StackName,TemplateURL):
+def update_stack(stack_name,path):
     response = client.update_stack(
         StackName=stack_name,
-        TemplateURL=args.s3path
+        TemplateURL=path
     )
 
-def check_status(StackName,TemplateURL):
+def check_status(stack_name):
     response = client.describe_stacks(
         StackName=stack_name)
     for StackStatus in stack_name:
@@ -50,13 +50,13 @@ def check_status(StackName,TemplateURL):
 
 def main():
     print("main stearted")
-    create_stack();
+    create_stack("luftwaffe");
     print("stack created")
     update_stack();
     print("stack updated")
     check_status();
     print("check status")
-    delete_stack();
+    delete_stack("luftwaffe");
     print("stack deleted")
 
 
