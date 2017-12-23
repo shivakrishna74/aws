@@ -14,11 +14,12 @@ stack_name = args.env + '-' + args.filename;
 
 client = boto3.client('cloudformation', region_name='us-east-1')
 
-
+TemplateURL=path,
+StackName=stack_name
 
 def create_stack(stack_name,path):
     response = client.create_stack(
-    TemplateUrl=path,
+    TemplateURL=path,
     StackName=stack_name
     )
 
@@ -26,7 +27,7 @@ def create_stack(stack_name,path):
 
 def main():
     print("main started")
-    create_stack(stack_name,path);
+    create_stack(StackName,TemplateURL);
 
 
 main()
@@ -44,7 +45,7 @@ main()
 
 def check_status(stack_name,path):
     response = client.describe_stacks(
-        TemplateUrl=path,
+        TemplateURL=path,
         StackName=stack_name)
     for StackStatus in create_stack():
         if StackStatus!='CREATE_COMPLETE':
