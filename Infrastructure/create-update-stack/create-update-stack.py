@@ -34,23 +34,22 @@ def stack_exists(stackname):
 
 
 def create_stack(stackname,path):
-    response = client.create_stack
-    TemplateURL=path,
-    StackName=stackname
-    )
+    response = client.create_stack(
+        TemplateURL=path,
+        StackName=stackname
+        )
 
 
 def delete_stack(stackname):
     response = client.delete_stack(
         StackName=stackname
-    )
+        )
 
 
 def check_stack_status(stackname,stack_chk_value):
     response = client.describe_stacks(
         StackName=stackname
-
-    )
+        )
 
     chk_status=response['Stacks'][0]['StackStatus']
     i=0
