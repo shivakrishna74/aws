@@ -64,7 +64,7 @@ def create_stack(stackname,path):
             )
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE'
 
-        print("after if block")
+        
 
 
 def delete_stack(stackname):
