@@ -3,6 +3,8 @@ import argparse
 import time
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
