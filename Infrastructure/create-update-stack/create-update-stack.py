@@ -19,7 +19,7 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 
 waiter = client.get_waiter('stack_exists')
 
-TemplateURL=path,
+templateurl=path,
 stackname=stack_name
 
 
@@ -68,7 +68,7 @@ def main():
     print("main started")
     try:
         if stack_operation == 'CREATE':
-            create_stack(stackname, TemplateURL)
+            create_stack(stackname, templateurl)
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
     except:
         logging.error("something screwed up with the stack status")
