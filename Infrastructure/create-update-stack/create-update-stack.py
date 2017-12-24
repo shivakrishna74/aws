@@ -49,6 +49,10 @@ def create_stack(stackname,path):
             )
         check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
     except Exception as e:
+        print("e")
+        print(e)
+        print("Inside exception block")
+
         logging.info("error :{0}".format(e))
         if "AlreadyExistsException" in e:
             logging.info("stack:{0} already exists".format(stackname))
