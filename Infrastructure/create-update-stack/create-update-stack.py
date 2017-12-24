@@ -17,23 +17,38 @@ stack_operation=args.stack_operation
 
 client = boto3.client('cloudformation', region_name='us-east-1')
 
+waiter = client.get_waiter('stack_exists')
+
 TemplateURL=path,
-StackName=stack_name
+stackname=stack_name
 
-def create_stack(StackName,TemplateURL):
-    response = client.create_stack(
+
+def stack_exists(stackname):
+    waiter.wait(
+        StackName=stackname,
+        WaiterConfig={
+            'Delay': 2,
+            'MaxAttempts': 5
+            }
+    )
+
+
+def create_stack(stackname,path):
+    response = client.create_stack
     TemplateURL=path,
-    StackName=stack_name
+    StackName=stackname
     )
 
-def delete_stack(StackName):
+
+def delete_stack(stackname):
     response = client.delete_stack(
-        StackName=StackName
+        StackName=stackname
     )
 
-def check_stack_status(stack_name,stack_chk_value):
+
+def check_stack_status(stackname,stack_chk_value):
     response = client.describe_stacks(
-        StackName=stack_name
+        StackName=stackname
 
     )
 
@@ -54,28 +69,13 @@ def main():
     print("main started")
     try:
         if stack_operation == 'CREATE':
-            response = client.describe_stacks(
-                StackName=stack_name
-                )
-
-            chk_status = response['Stacks'][0]['StackStatus']
-            if chk_status in ['CREATE_IN_PROGRESS', 'CREATE_FAILED', 'CREATE_COMPLETE', 'ROLLBACK_IN_PROGRESS',
-                              'ROLLBACK_FAILED', 'ROLLBACK_COMPLETE', 'DELETE_IN_PROGRESS', 'DELETE_FAILED',
-                              'DELETE_COMPLETE', 'UPDATE_IN_PROGRESS', 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS',
-                              'UPDATE_COMPLETE', 'UPDATE_ROLLBACK_IN_PROGRESS', 'UPDATE_ROLLBACK_FAILED',
-                              'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS', 'UPDATE_ROLLBACK_COMPLETE',
-                              'REVIEW_IN_PROGRESS']:
-                delete_stack(StackName)
-                check_stack_status(StackName, stack_chk_value='DELETE_COMPLETE')
-
+            create_stack(StackName, TemplateURL)
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
     except:
         logging.error("something screwed up with the stack status")
         raise
 
     logging.info("trying to create the stack")
-
-    create_stack(StackName, TemplateURL)
-    check_stack_status(StackName, stack_chk_value='CREATE_COMPLETE')
 
 
 if __name__ == "__main__":
