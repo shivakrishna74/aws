@@ -75,9 +75,15 @@ def main():
         if stack_operation == 'CREATE':
             create_stack(stackname, templateurl)
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-    except:
-        logging.error("something screwed up with the stack status")
-        raise
+    except error as e:
+        if str(AlreadyExistsException) in e:
+            logging.info("stack:{0} already exists".format(stackname))
+            delete_stack(stackname)
+            check_stack_status(stackname,stack_chk_value='DELETE_COMPLETE')
+            create_stack(stackname,templateurl)
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+
+
 
     logging.info("trying to create the stack")
 
