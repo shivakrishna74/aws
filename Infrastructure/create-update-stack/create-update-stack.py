@@ -2,6 +2,14 @@ import boto3
 import argparse
 import time
 import logging
+import sys
+
+class error(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -83,9 +91,6 @@ def main():
             create_stack(stackname,templateurl)
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
 
-
-
-    logging.info("trying to create the stack")
 
 
 if __name__ == "__main__":
