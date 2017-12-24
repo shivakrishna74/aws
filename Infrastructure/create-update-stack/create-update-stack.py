@@ -46,7 +46,7 @@ def check_stack_status(stackname,stack_chk_value):
     max_count = 60
 
     while True and min_count <= max_count:
-        time.sleep(60)
+        time.sleep(20)
         min_count = min_count + 1
         try:
             response = client.describe_stacks(
