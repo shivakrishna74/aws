@@ -52,7 +52,6 @@ def create_stack(stackname,path):
         print("e")
         print(e)
         print("Inside exception block")
-
         logging.info("error :{0}".format(e))
         if "AlreadyExistsException" in e:
             print("inside if block")
@@ -63,7 +62,9 @@ def create_stack(stackname,path):
                 TemplateURL=path,
                 StackName=stackname
             )
-            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE'
+
+        print("after if block")
 
 
 def delete_stack(stackname):
