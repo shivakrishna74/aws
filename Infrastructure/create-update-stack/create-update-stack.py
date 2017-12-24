@@ -41,38 +41,6 @@ def stack_exists(stackname):
     )
 
 
-def create_stack(stackname,path):
-    try:
-        response = client.create_stack(
-            TemplateURL=path,
-            StackName=stackname
-            )
-        check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-    except Exception as e:
-        print("e")
-        print(e)
-        print("Inside exception block")
-        logging.info("error :{0}".format(e))
-        if "AlreadyExistsException" in e:
-            print("inside if block")
-            logging.info("stack:{0} already exists".format(stackname))
-            delete_stack(stackname)
-            check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            response = client.create_stack(
-                TemplateURL=path,
-                StackName=stackname
-            )
-            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE'
-
-        
-
-
-def delete_stack(stackname):
-    response = client.delete_stack(
-        StackName=stackname
-        )
-
-
 def check_stack_status(stackname,stack_chk_value):
     response = client.describe_stacks(
         StackName=stackname
@@ -94,6 +62,45 @@ def check_stack_status(stackname,stack_chk_value):
         min_count = min_count+1
 
     return chk_status
+
+
+def delete_stack(stackname):
+    response = client.delete_stack(
+        StackName=stackname
+        )
+
+
+
+
+
+def create_stack(stackname,path):
+    try:
+        response = client.create_stack(
+            TemplateURL=path,
+            StackName=stackname
+            )
+        check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+    except Exception as e:
+        exception_value=str(e)
+        print("exception_value")
+        print(exception_value)
+        print("Inside exception block")
+        logging.info("error :{0}".format(exception_value))
+        if "AlreadyExistsException" in exception_value:
+            print("inside if block")
+            logging.info("stack:{0} already exists".format(stackname))
+            delete_stack(stackname)
+            check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
+            response = client.create_stack(
+                TemplateURL=path,
+                StackName=stackname
+            )
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+
+
+
+
+
 
 
 def main():
