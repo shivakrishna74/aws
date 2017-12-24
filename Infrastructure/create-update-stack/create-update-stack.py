@@ -68,7 +68,7 @@ def main():
     print("main started")
     try:
         if stack_operation == 'CREATE':
-            create_stack(StackName, TemplateURL)
+            create_stack(stackname, TemplateURL)
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
     except:
         logging.error("something screwed up with the stack status")
