@@ -3,7 +3,6 @@ import argparse
 import time
 import logging
 
-
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
@@ -51,15 +50,20 @@ def check_stack_status(stackname,stack_chk_value):
         )
 
     chk_status=response['Stacks'][0]['StackStatus']
-    i=0
-    while i<60:
+    min_count=0
+    max_count=60
+    while min_count<=max_count:
+
         try:
             if chk_status == stack_chk_value:
                 logging.info("Stack status is {0}".format(stack_chk_value))
         except:
             logging.error("stack status has an error")
             raise
-    i+=1
+
+        time.sleep(60)
+        min_count = min_count+1
+
     return chk_status
 
 
