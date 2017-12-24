@@ -49,17 +49,16 @@ def check_stack_status(stackname,stack_chk_value):
     chk_status=response['Stacks'][0]['StackStatus']
     min_count=0
     max_count=60
-    while min_count<=max_count:
-
-        try:
-            if chk_status == stack_chk_value:
+    while min_count <= max_count:
+         try:
+            if stack_chk_value == chk_status:
                 logging.info("Stack status is {0}".format(stack_chk_value))
-        except:
+         except:
             logging.error("stack status has an error")
             raise
 
-        time.sleep(60)
-        min_count = min_count+1
+         time.sleep(60)
+         min_count = min_count + 1
 
     return chk_status
 
