@@ -56,6 +56,7 @@ def check_stack_status(stackname,stack_chk_value):
             chk_status=response['Stacks'][0]['StackStatus']
             if stack_chk_value == chk_status:
                 logging.info("Stack status is {0}".format(stack_chk_value))
+                break
         except:
             logging.error("stack status has an error")
             raise
