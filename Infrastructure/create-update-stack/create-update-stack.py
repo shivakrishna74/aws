@@ -55,6 +55,7 @@ def create_stack(stackname,path):
 
         logging.info("error :{0}".format(e))
         if "AlreadyExistsException" in e:
+            print("inside if block")
             logging.info("stack:{0} already exists".format(stackname))
             delete_stack(stackname)
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
