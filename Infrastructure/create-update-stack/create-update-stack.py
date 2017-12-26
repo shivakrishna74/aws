@@ -37,7 +37,7 @@ def describe_stack(StackName):
     response = client.describe_stacks(
         StackName=stack_name
     )
-    chk_status= response['Stacks'][0]['StackStatus'];
+    chk_stack= response['Stacks'][0]['StackName'];
     if stack_chk_value==chk_status:
         logging.info("stack status is {0}")
 
@@ -50,7 +50,7 @@ def delete_stack(StackName):
 #creating stack
 def create_stack(StackName,TemplateURL):
 
-        if StackName in describe_stack(StackName):
+        if chk_stack in describe_stack(StackName):
             delete_stack(StackName)
             create_stack(StackName, TemplateURL)
             print("inside creeate stack ")
