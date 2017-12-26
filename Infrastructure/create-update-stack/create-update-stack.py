@@ -59,9 +59,11 @@ def create_stack(StackName,TemplateURL):
             print("inside try")
             if chk_stack in describe_stack(StackName):
                 print("inside if")
+                time.sleep(60)
                 delete_stack(StackName)
                 time.sleep(60)
                 create_stack(StackName, TemplateURL)
+                time.sleep(60)
                 print("inside creeate stack ")
 
 
@@ -72,7 +74,9 @@ def create_stack(StackName,TemplateURL):
             print("inside except block")
             print(err);
             if err.response['Error']['Message'] == 'Stack with id devl-rds does not exist':
+                time.sleep(60)
                 create_stack(StackName, TemplateURL)
+                time.sleep(60)
             # if 'does not exist'.format(stack_name) in error_msg:
 
 
@@ -80,7 +84,9 @@ def create_stack(StackName,TemplateURL):
 
 def main():
         print("inside main")
+        time.sleep(60)
         create_stack(StackName,TemplateURL)
+        time.sleep(60)
 
 
 
