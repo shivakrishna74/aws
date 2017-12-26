@@ -70,7 +70,7 @@ def create_stack(StackName,TemplateURL):
             print(err.response['Error'])
             print("inside except block")
             print(err);
-            if err.response['Error']['Code'] == 'does not exist':
+            if err.response['Error']['Message'] == 'Stack with id devl-rds does not exist':
                 create_stack(StackName, TemplateURL)
             # if 'does not exist'.format(stack_name) in error_msg:
 
