@@ -33,13 +33,13 @@ TemplateURL=path
 StackName=stack_name
 
 #describing stack
-def describe_stack(StackName,stack_chk_value):
+def describe_stack(StackName):
     response = client.describe_stacks(
         StackName
     )
     chk_status= response['Stacks'][0]['StackStatus'];
     if stack_chk_value==chk_status:
-        logging.info("stack status is {0}".format(stack_chk_value))
+        logging.info("stack status is {0}")
 
 #delete stack
 def delete_stack(StackName):
@@ -50,7 +50,7 @@ def delete_stack(StackName):
 #creating stack
 def create_stack(StackName,TemplateURL):
 
-        if StackName in describe_stack(StackName,stack_chk_value):
+        if StackName in describe_stack(StackName):
             delete_stack(StackName)
             create_stack(StackName, TemplateURL)
             print("inside creeate stack ")
