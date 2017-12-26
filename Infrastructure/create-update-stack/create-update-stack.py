@@ -52,7 +52,6 @@ def create_stack(stackname,templateurl):
     try:
         response = client.create_stack(stackname,templateurl);
     except Exception as e:
-        if stackname.exists():
             delete_stack(stackname)
             create_stack(stackname,templateurl);
             print("execution Inside if block "),
