@@ -4,6 +4,7 @@ import time
 import logging
 import sys
 import botocore
+from botocore.exceptions import ValidationError
 
 
 # class for handling errors
@@ -59,10 +60,12 @@ def create_stack(StackName,TemplateURL):
 
 
 
-        except (botocore.exceptions.ValidationError, botocore.exceptions.ClientError) as err:
-            error_msg = boto_exception(err)
-            if 'does not exist'.format(stack_name) in error_msg:
-                create_stack(StackName,TemplateURL)
+        except ValidationError as err:
+            print(err);
+            if e.response['Error']['Code'] == 'does not exist':
+                create_stack(StackName, TemplateURL)
+            # if 'does not exist'.format(stack_name) in error_msg:
+
 
 
 
