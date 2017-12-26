@@ -30,36 +30,36 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 #Waiter used for making it wait
 waiter = client.get_waiter('stack_exists')
 templateurl=path
-stackname=stack_name
+StackName=stack_name
 
 #describing stack
-def describe_stack(stackname,stack_chk_value):
+def describe_stack(StackName,stack_chk_value):
     response = client.describe_stacks(
-        stackname
+        StackName
     )
     chk_status= response['Stacks'][0]['StackStatus'];
     if stack_chk_value==chk_status:
         logging.info("stack status is {0}".format(stack_chk_value))
 
 #delete stack
-def delete_stack(stackname):
+def delete_stack(StackName):
     response = client.delete_stack(
-        stackname=stack_name
+        StackName=stack_name
     )
 
 #creating stack
-def create_stack(stackname,templateurl):
+def create_stack(StackName,templateurl):
     try:
-        response = client.create_stack(stackname,templateurl);
+        response = client.create_stack(StackName,templateurl);
     except Exception as e:
-            delete_stack(stackname)
-            create_stack(stackname,templateurl);
+            delete_stack(StackName)
+            create_stack(StackName,templateurl);
             print("execution Inside if block "),
 
 
 def main():
     print("inside main")
-    create_stack(stackname,templateurl);
+    create_stack(StackName,templateurl);
 
 
 
