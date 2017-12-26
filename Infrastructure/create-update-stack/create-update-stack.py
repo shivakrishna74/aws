@@ -49,7 +49,7 @@ def delete_stack(StackName):
 
 #creating stack
 def create_stack(StackName,templateurl):
-        response = client.create_stack(StackName,templateurl);
+        response = client.create_stack(StackName=stack_name,templateurl=path);
 
 
 
