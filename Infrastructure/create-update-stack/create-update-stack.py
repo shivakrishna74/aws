@@ -3,6 +3,7 @@ import argparse
 import time
 import logging
 import sys
+import botocore
 
 
 # class for handling errors
