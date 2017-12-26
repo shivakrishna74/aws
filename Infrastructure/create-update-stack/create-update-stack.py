@@ -52,7 +52,7 @@ def create_stack(stackname,templateurl):
     try:
         response = client.create_stack(stackname,templateurl);
     except Exception as e:
-            delete_stack(stackname)
+            delete_stack(stack_name)
             create_stack(stackname,templateurl);
             print("execution Inside if block "),
 
