@@ -29,7 +29,7 @@ stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
 #Waiter used for making it wait
 waiter = client.get_waiter('stack_exists')
-templateurl=path
+TemplateURL=path
 StackName=stack_name
 
 #describing stack
@@ -48,17 +48,17 @@ def delete_stack(StackName):
     )
 
 #creating stack
-def create_stack(StackName,templateurl):
-        response = client.create_stack(StackName=stack_name,templateurl=path);
+def create_stack(StackName,TemplateURL):
+        response = client.create_stack(StackName=stack_name,TemplateURL=path);
 
 
 
 def main():
     try:
-        create_stack(StackName,templateurl)
+        create_stack(StackName,TemplateURL)
     except Exception as e:
             delete_stack(StackName)
-            create_stack(StackName,templateurl)
+            create_stack(StackName,TemplateURL)
             print("execution Inside if block ")
 
 
