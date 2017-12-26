@@ -60,6 +60,7 @@ def create_stack(StackName,TemplateURL):
             if chk_stack in describe_stack(StackName):
                 print("inside if")
                 delete_stack(StackName)
+                time.sleep(60)
                 create_stack(StackName, TemplateURL)
                 print("inside creeate stack ")
 
