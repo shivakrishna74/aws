@@ -68,7 +68,7 @@ def create_stack(StackName,TemplateURL):
 
 
 
-        except (ValidationError,ClientError) as err:
+        except (botocore.exceptions.ClientError,botocore.exceptions.ValidationError) as err:
             print(err.response['Error']['Code'])
             print(err.response['Error'])
             print("inside except block")
