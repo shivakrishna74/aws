@@ -67,6 +67,7 @@ def create_stack(StackName,TemplateURL):
 
         except (ValidationError,ClientError) as err:
             print(err.response['Error']['Code'])
+            print(err.response['Error'])
             print("inside except block")
             print(err);
             if err.response['Error']['Code'] == 'does not exist':
