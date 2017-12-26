@@ -49,17 +49,17 @@ def delete_stack(StackName):
 
 #creating stack
 def create_stack(StackName,templateurl):
-    try:
         response = client.create_stack(StackName,templateurl);
-    except Exception as e:
-            delete_stack(StackName)
-            create_stack(StackName,templateurl);
-            print("execution Inside if block "),
+
 
 
 def main():
-    print("inside main")
-    create_stack(StackName,templateurl);
+    try:
+        create_stack(StackName,templateurl)
+    except Exception as e:
+            delete_stack(StackName)
+            create_stack(StackName,templateurl)
+            print("execution Inside if block ")
 
 
 
