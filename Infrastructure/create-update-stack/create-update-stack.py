@@ -33,7 +33,7 @@ TemplateURL=path
 StackName=stack_name
 
 #describing stack
-def describe_stack(StackName):
+def describe_stack(StackName=stack_name):
     response = client.describe_stacks(
         StackName
     )
