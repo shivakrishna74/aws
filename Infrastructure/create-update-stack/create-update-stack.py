@@ -31,7 +31,7 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 waiter = client.get_waiter('stack_exists')
 TemplateURL=path
 StackName=stack_name
-chk_stack;
+chk_stack=" ";
 
 #describing stack
 def describe_stack(StackName):
