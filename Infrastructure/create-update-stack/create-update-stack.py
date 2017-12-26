@@ -50,15 +50,18 @@ def delete_stack(StackName):
 
 #creating stack
 def create_stack(StackName,TemplateURL):
+        try:
+            if chk_stack in describe_stack(StackName):
+                delete_stack(StackName)
+                create_stack(StackName, TemplateURL)
+                print("inside creeate stack ")
 
-        if chk_stack in describe_stack(StackName):
-            delete_stack(StackName)
-            create_stack(StackName, TemplateURL)
-            print("inside creeate stack ")
 
-        else:
-            response = client.create_stack(StackName=stack_name, TemplateURL=path)
 
+        except (botocore.exceptions.ValidationError, botocore.exceptions.ClientError) as err:
+            error_msg = boto_exception(err)
+            if 'does not exist'.format(stack_name) in error_msg:
+                create_stack(StackName,TemplateURL)
 
 
 
