@@ -44,7 +44,7 @@ def describe_stack(stackname,stack_chk_value):
 #delete stack
 def delete_stack(stackname):
     response = client.delete_stack(
-        stackname
+        stackname=stack_name
     )
 
 #creating stack
@@ -52,7 +52,7 @@ def create_stack(stackname,templateurl):
     try:
         response = client.create_stack(stackname,templateurl);
     except Exception as e:
-            delete_stack(stack_name)
+            delete_stack(stackname)
             create_stack(stackname,templateurl);
             print("execution Inside if block "),
 
