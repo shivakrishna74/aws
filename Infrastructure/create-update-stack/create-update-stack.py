@@ -50,7 +50,7 @@ def delete_stack(StackName):
 #creating stack
 def create_stack(StackName,TemplateURL):
 
-        if StackName in describe_stack(StackName):
+        if StackName in describe_stack(StackName,stack_chk_value):
             delete_stack(StackName)
             create_stack(StackName, TemplateURL)
             print("inside creeate stack ")
