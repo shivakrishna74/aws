@@ -38,6 +38,7 @@ chk_stack=" ";
 
 #describing stack
 def describe_stack(StackName):
+    print("inside descrive stack")
     response = client.describe_stacks(
         StackName=stack_name
     )
@@ -47,6 +48,7 @@ def describe_stack(StackName):
 
 #delete stack
 def delete_stack(StackName):
+    print("inside delete")
     response = client.delete_stack(
         StackName=stack_name
     )
@@ -54,7 +56,9 @@ def delete_stack(StackName):
 #creating stack
 def create_stack(StackName,TemplateURL):
         try:
+            print("inside try")
             if chk_stack in describe_stack(StackName):
+                print("inside if")
                 delete_stack(StackName)
                 create_stack(StackName, TemplateURL)
                 print("inside creeate stack ")
@@ -62,6 +66,7 @@ def create_stack(StackName,TemplateURL):
 
 
         except (ValidationError,ClientError) as err:
+            print("inside except block")
             print(err);
             if err.response['Error']['Code'] == 'does not exist':
                 create_stack(StackName, TemplateURL)
