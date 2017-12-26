@@ -3,7 +3,7 @@ import argparse
 import time
 import logging
 import sys
-from pathlib import Path
+
 
 # class for handling errors
 class error(Exception):
