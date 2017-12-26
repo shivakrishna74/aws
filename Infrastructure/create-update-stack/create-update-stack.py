@@ -33,9 +33,9 @@ TemplateURL=path
 StackName=stack_name
 
 #describing stack
-def describe_stack(StackName=stack_name):
+def describe_stack(StackName):
     response = client.describe_stacks(
-        StackName
+        StackName=stack_name
     )
     chk_status= response['Stacks'][0]['StackStatus'];
     if stack_chk_value==chk_status:
@@ -62,7 +62,7 @@ def create_stack(StackName,TemplateURL):
 
 
 def main():
-
+        print("inside main")
         create_stack(StackName,TemplateURL)
 
 
