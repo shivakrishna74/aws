@@ -91,7 +91,7 @@ def create_stack(stackname,path):
             logging.info("stack:{0} already exists".format(stackname))
             delete_stack(stackname)
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            response = client.create_stack(
+            response1 = client.create_stack(
                 TemplateURL=path,
                 StackName=stackname
             )
