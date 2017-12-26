@@ -49,11 +49,14 @@ def delete_stack(StackName):
 
 #creating stack
 def create_stack(StackName,TemplateURL):
-        response = client.create_stack(StackName=stack_name,TemplateURL=path);
+
         if StackName in describe_stack(StackName):
             delete_stack(StackName)
             create_stack(StackName, TemplateURL)
             print("inside creeate stack ")
+
+        else:
+            response = client.create_stack(StackName=stack_name, TemplateURL=path)
 
 
 
