@@ -66,10 +66,14 @@ def check_stack_alive(stack_name):
 
 
 def main():
+    print("inside mainblock")
     try:
+        print("inside try main block")
         if stack_operation == "CREATE":
+            print("inside try if before create main block")
             create_stack(StackName, TemplateURL)
-            print("inside mainblock")
+            print("inside try if after create before check status function in main main block")
+
             check_stack_alive(StackName)
     except Exception as e:
         if "does not exist" in e:
