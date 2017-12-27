@@ -9,4 +9,4 @@ def check_stack_alive(stack_name):
 
     return response
 
-check_stack_status=check_stack_alive()
+check_stack_status=check_stack_alive('neDev-newThing')
