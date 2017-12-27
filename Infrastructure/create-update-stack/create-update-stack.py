@@ -90,6 +90,7 @@ def create_stack(stackname,path):
             print("inside if block")
             logging.info("stack:{0} already exists".format(stackname))
             delete_stack(stackname)
+            create_stack(stackname,templateurl)
             pass
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
             pass
