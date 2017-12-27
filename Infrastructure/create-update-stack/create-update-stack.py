@@ -66,8 +66,9 @@ def check_stack_status(stackname,stack_chk_value):
 
 def delete_stack(stackname):
     response = client.delete_stack(
-        StackName=stackname
-        )
+        StackName=stackname)
+
+    create_stack(stackname,templateurl)
 
 
 
@@ -90,7 +91,6 @@ def create_stack(stackname,path):
             print("inside if block")
             logging.info("stack:{0} already exists".format(stackname))
             delete_stack(stackname)
-            create_stack(stackname,templateurl)
             pass
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
             pass
