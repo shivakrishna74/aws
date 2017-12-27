@@ -102,8 +102,3 @@ if __name__ == "__main__":
     main()
 
 
-
-
-
-
-check_stack_status=check_stack_alive('neDev-newThing')
