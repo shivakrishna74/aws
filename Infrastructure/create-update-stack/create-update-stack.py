@@ -7,7 +7,7 @@ import botocore
 from botocore.exceptions import ValidationError
 from botocore.exceptions import ClientError
 
-
+print("program started")
 # class for handling errors
 class error(Exception):
     def __init__(self, value):
