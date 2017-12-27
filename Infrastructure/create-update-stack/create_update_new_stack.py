@@ -71,8 +71,10 @@ def main():
             check_stack_alive(StackName)
     except Exception as e:
         if "does not exist" in e:
+            print("inside if in main")
             create_stack(StackName,TemplateURL)
         elif "Already exists" in e:
+            print("inside elif in main")
             delete_stack(StackName)
 
 if __name__ == "__main__":
