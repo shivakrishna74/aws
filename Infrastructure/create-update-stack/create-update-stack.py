@@ -117,31 +117,7 @@ def main():
         exception_value = str(e)
 
         logging.error("Something screwed up with stack creation")
-        print("exception_value")
-        print(exception_value)
-        print("Inside exception block")
-        logging.info("error :{0}".format(exception_value))
-        if "AlreadyExistsException" in exception_value:
-            print("inside if block")
-            logging.info("stack:{0} already exists".format(stackname))
-            print("before delete")
-            delete_stack(stackname)
-            print("delete completed")
-            # pass
-            print("strting to check stack status")
-            check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            create_stack(stackname, templateurl)
-
-            print("stack status check complete")
-            print("TRying to recreate the stack")
-            # pass
-            response = client.create_stack(
-                TemplateURL=path,
-                StackName=stackname
-            )
-            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-            print("create completed")
-
+       
 
 
 
