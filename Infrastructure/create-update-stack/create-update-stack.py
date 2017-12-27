@@ -37,10 +37,10 @@ def stack_exists(stackname):
     )
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
-    max_count = 60
+    max_count = 360
 
     while True and min_count <= max_count:
-        time.sleep(60)
+        time.sleep(10)
         min_count = min_count + 1
         try:
             response = client.describe_stacks(
@@ -117,7 +117,7 @@ def main():
         exception_value = str(e)
 
         logging.error("Something screwed up with stack creation")
-       
+
 
 
 
