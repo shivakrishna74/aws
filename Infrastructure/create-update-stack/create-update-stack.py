@@ -89,12 +89,19 @@ def create_stack(stackname,path):
         if "AlreadyExistsException" in exception_value:
             print("inside if block")
             logging.info("stack:{0} already exists".format(stackname))
+            print("delete stack")
             delete_stack(stackname)
+            print("delet stack completed")
+            pass
+            print("create stack started")
+            create_stack(stackname,templateurl)
+            print("create stack completed")
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            response = client.create_stack(
-                TemplateURL=path,
-                StackName=stackname
-            )
+            pass
+            # response = client.create_stack(
+            #     TemplateURL=path,
+            #     StackName=stackname
+            # )
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
 
 
