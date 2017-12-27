@@ -62,9 +62,7 @@ def delete_stack(stackname):
     print("inside delete")
     response = client.delete_stack(
         StackName=stackname)
-    print("after delete,before create")
-    create_stack(stackname,templateurl)
-    print("create stack done")
+  
 
 
 
