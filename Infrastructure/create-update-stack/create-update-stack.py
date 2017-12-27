@@ -23,14 +23,10 @@ args = parser.parse_args()
 path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
-
 client = boto3.client('cloudformation', region_name='us-east-1')
-
 waiter = client.get_waiter('stack_exists')
-
 templateurl=path
 stackname=stack_name
-
 def stack_exists(stackname):
     waiter.wait(
         StackName=stackname,
@@ -39,8 +35,6 @@ def stack_exists(stackname):
             'MaxAttempts': 5
             }
     )
-
-
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
     max_count = 60
@@ -68,7 +62,6 @@ def delete_stack(stackname):
     response = client.delete_stack(
         StackName=stackname)
 
-    create_stack(stackname,templateurl)
 
 
 
@@ -90,7 +83,9 @@ def create_stack(stackname,path):
         if "AlreadyExistsException" in exception_value:
             print("inside if block")
             logging.info("stack:{0} already exists".format(stackname))
+            print("before delete")
             delete_stack(stackname)
+            print("delete completed")
             pass
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
             pass
