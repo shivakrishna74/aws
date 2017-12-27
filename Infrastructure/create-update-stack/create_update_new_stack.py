@@ -30,6 +30,8 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 TemplateURL=path
 StackName=stack_name
 
+
+
 def create_stack(StackName,TemplateURL):
     response = client.create_stack(
         StackName=stack_name,TemplateURL=path
@@ -62,6 +64,8 @@ def check_stack_alive(stack_name):
 
 
 def main():
+    if stack_operation == "CREATE":
+        create_stack(StackName, TemplateURL)
     print("inside mainblock")
     check_stack_alive(StackName)
 
