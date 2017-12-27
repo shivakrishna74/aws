@@ -11,11 +11,12 @@ def check_stack_alive(stack_name):
 
 
     except Exception as e:
-        print("in exception block")
-        print("new block")
-          # err_msg=str(e);
-        # if err_msg =="does not exist" :
-        #
+
+        err_msg=str(e)
+        print(err_msg)
+
+
+
 
 
 
