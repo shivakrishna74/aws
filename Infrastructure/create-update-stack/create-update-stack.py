@@ -86,14 +86,18 @@ def create_stack(stackname,path):
             print("before delete")
             delete_stack(stackname)
             print("delete completed")
-            pass
+            #pass
+            print ("strting to check stack status")
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            pass
+            print ("stack status check complete")
+            print ("TRying to recreate the stack")
+            #pass
             response = client.create_stack(
                 TemplateURL=path,
                 StackName=stackname
             )
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+            print("create completed")
 
 
 
