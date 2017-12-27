@@ -33,14 +33,17 @@ def delete_stack(StackName):
 
 
 def check_stack_alive(stack_name):
+    print("inside alive block")
     try:
         response = client.describe_stacks(
             StackName=stack_name
             )
+        print("inside try block")
         print(stack_name)
 
 
     except Exception as e:
+        print("inside exception block")
 
         if "does not exist" in e:
             create_stack(StackName,TemplateURL)
@@ -49,6 +52,7 @@ def check_stack_alive(stack_name):
 
 
 def main():
+    print("inside mainblock")
     check_stack_alive(StackName)
 
 if __name__ == "__main__":
