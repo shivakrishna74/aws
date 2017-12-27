@@ -64,10 +64,16 @@ def check_stack_alive(stack_name):
 
 
 def main():
-    if stack_operation == "CREATE":
-        create_stack(StackName, TemplateURL)
-    print("inside mainblock")
-    check_stack_alive(StackName)
+    try:
+        if stack_operation == "CREATE":
+            create_stack(StackName, TemplateURL)
+            print("inside mainblock")
+            check_stack_alive(StackName)
+    except Exception as e:
+        if "does not exist" in e:
+            create_stack(StackName,TemplateURL)
+        elif "Already exists" in e:
+            delete_stack(StackName)
 
 if __name__ == "__main__":
     main()
