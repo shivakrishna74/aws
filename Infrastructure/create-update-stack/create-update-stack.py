@@ -62,7 +62,7 @@ def delete_stack(stackname):
     print("inside delete")
     response = client.delete_stack(
         StackName=stackname)
-  
+
 
 
 
@@ -90,6 +90,7 @@ def create_stack(stackname,path):
             print("delete completed")
             #pass
             print ("strting to check stack status")
+            create_stack(stackname,templateurl)
             check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
             print ("stack status check complete")
             print ("TRying to recreate the stack")
