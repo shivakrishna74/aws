@@ -33,9 +33,24 @@ StackName=stack_name
 
 
 def create_stack(StackName,TemplateURL):
-    response = client.create_stack(
-        StackName=stack_name,TemplateURL=path
-       )
+
+    try:
+        response = client.create_stack(
+            StackName=stack_name, TemplateURL=path
+        )
+        print("inside try block")
+        print(stack_name)
+
+    except Exception as e:
+        print("inside exception block")
+
+        if "does not exist" in e:
+            print("inside does not exist if in exception not main")
+            create_stack(StackName,TemplateURL)
+        elif "Already exists" in e:
+            print("inside  exist if in exception not main")
+            delete_stack(StackName)
+
 
 def delete_stack(StackName):
     response = client.delete_stack(
