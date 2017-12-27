@@ -2,7 +2,6 @@ import boto3
 
 client = boto3.client('cloudformation', region_name='us-east-1')
 
-logging.basicConfig(level=logging.DEBUG)
 ##########
 
 parser = argparse.ArgumentParser(description='create update stack')
