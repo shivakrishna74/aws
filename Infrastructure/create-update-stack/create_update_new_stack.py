@@ -1,9 +1,20 @@
 import boto3
 import argparse
 
-client = boto3.client('cloudformation', region_name='us-east-1')
+import boto3
+import argparse
+import time
+import logging
+import sys
 
-##########
+class error(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+
+logging.basicConfig(level=logging.DEBUG)
 
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
@@ -16,7 +27,6 @@ path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-waiter = client.get_waiter('stack_exists')
 TemplateURL=path
 StackName=stack_name
 
