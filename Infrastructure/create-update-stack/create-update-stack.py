@@ -61,6 +61,7 @@ def check_stack_status(stackname,stack_chk_value):
 def delete_stack(stackname):
     response = client.delete_stack(
         StackName=stackname)
+    create_stack(stackname,templateurl)
 
 
 
