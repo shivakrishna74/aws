@@ -58,8 +58,10 @@ def check_stack_alive(stack_name):
         print("inside exception block")
 
         if "does not exist" in e:
+            print("inside does not exist if in exception not main")
             create_stack(StackName,TemplateURL)
         elif "Already exists" in e:
+            print("inside  exist if in exception not main")
             delete_stack(StackName)
 
 
