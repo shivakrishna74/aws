@@ -94,7 +94,7 @@ def main():
     if stack_operation == 'CREATE':
         create_stack(stack_name, args.s3path)
     elif stack_operation == 'UPDATE':
-        update_stack(stack_name)
+        update_stack(stack_name,args.s3path)
 
 if __name__ == "__main__":
     main()
