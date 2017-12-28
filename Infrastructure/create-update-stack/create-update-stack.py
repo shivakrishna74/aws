@@ -61,9 +61,10 @@ def create_stack(stackname,path):
             logging.error("error - {0}".format(e))
             logging.error("Cannot create stack")
             raise
-def update_stack(stackname):
+def update_stack(stackname,path):
     response = client.update_stack(
-        StackName=stack_name
+        TemplateURL=path,
+        StackName=stackname
     )
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
