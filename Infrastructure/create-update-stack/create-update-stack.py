@@ -4,6 +4,10 @@ import time
 import logging
 import sys
 
+import random
+from retrying import retry
+
+
 class error(Exception):
     def __init__(self, value):
         self.value = value
@@ -68,7 +72,7 @@ def delete_stack(stackname):
 
 
 
-
+@retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_delay=30000)
 def create_stack(stackname,path):
     try:
         response = client.create_stack(
