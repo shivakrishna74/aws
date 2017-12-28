@@ -28,7 +28,7 @@ stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
 
 
-@retry
+@retry(wait_fixed=30000)
 def create_stack(stackname,path):
     try:
         crt_response = client.create_stack(
