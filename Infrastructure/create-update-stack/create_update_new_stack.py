@@ -26,23 +26,41 @@ path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-waiter = client.get_waiter('stack_exists')
-templateurl=path
-stackname=stack_name
-def stack_exists(stackname):
-    waiter.wait(
-        StackName=stackname,
-        WaiterConfig={
-            'Delay': 2,
-            'MaxAttempts': 5
-            }
-    )
+
+
+@retry
+def create_stack(stackname,path):
+    try:
+        crt_response = client.create_stack(
+            TemplateURL=path,
+            StackName=stackname
+            )
+        logging.info("Stack creation command issued")
+        check_stack_status(stackname,stack_chk_value='CREATE_COMPLETE')
+    except Exception as e:
+        if "AlreadyExistsException" in e:
+            logging.info("Stack - {0} exists. SO deleting the stack {0}".format(stackname))
+            delete_response = client.delete_stack(
+                StackName=stackname)
+            logging.info("Issued delete stack")
+            check_stack_status(stackname,stack_chk_value='DELETE_COMPLETE')
+
+
+        else:
+            logging.error("error - {0}".format(e))
+            logging.error("Cannot create stack")
+            raise
+
+
+
+
+
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
-    max_count = 60
+    max_count = 120
 
     while True and min_count <= max_count:
-        time.sleep(60)
+        time.sleep(30)
         min_count = min_count + 1
         try:
             response = client.describe_stacks(
@@ -50,73 +68,24 @@ def check_stack_status(stackname,stack_chk_value):
                 )
 
             chk_status=response['Stacks'][0]['StackStatus']
-            if stack_chk_value == chk_status:
-                logging.info("Stack status is {0}".format(stack_chk_value))
+            if chk_status == stack_chk_value:
+                logging.info("Stack status is {0}".format(chk_status))
                 break
-        except:
-            logging.error("stack status has an error")
-            raise
-
-    return stack_chk_value
-
-
-def delete_stack(stackname):
-    response = client.delete_stack(
-        StackName=stackname)
-
-
-
-
-
-@retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_delay=30000)
-def create_stack(stackname,path):
-    try:
-        response = client.create_stack(
-            TemplateURL=path,
-            StackName=stackname
-            )
-        check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-    except Exception as e:
-        exception_value=str(e)
-        print("exception_value")
-        print(exception_value)
-        print("Inside exception block")
-        logging.info("error :{0}".format(exception_value))
-        if "AlreadyExistsException" in exception_value:
-            print("inside if block")
-            logging.info("stack:{0} already exists".format(stackname))
-            print("before delete")
-            delete_stack(stackname)
-            print("delete completed")
-            #pass
-            print ("strting to check stack status")
-            check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
-            print ("stack status check complete")
-            print ("TRying to recreate the stack")
-            #pass
-            response = client.create_stack(
-                TemplateURL=path,
-                StackName=stackname
-            )
-            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-            print("create completed")
-
-
-
-
-
-
+        except Exception as e:
+            error_string = str(e)
+            if "does not exist" in error_string:
+                break
+            else:
+                logging.error("stack status has an error")
+                raise
 
 def main():
-    try:
-        if stack_operation == 'CREATE':
-            create_stack(stackname, templateurl)
-    except Exception as e:
-
-        logging.error("Something screwed up with stack creation")
+    if stack_operation == 'CREATE':
+        create_stack(stack_name, args.s3path)
 
 
 
 
-if __name__ == "__main__":
-    main()
+
+
+
