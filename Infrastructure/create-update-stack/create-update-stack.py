@@ -62,10 +62,31 @@ def create_stack(stackname,path):
             logging.error("Cannot create stack")
             raise
 def update_stack(stackname,path):
-    response = client.update_stack(
-        TemplateURL=path,
-        StackName=stackname
-    )
+    try:
+        response = client.update_stack(
+            TemplateURL=path,
+            StackName=stackname
+        )
+        logging.info("stack update command issued")
+        check_stack_status(stackname, stack_chk_value='UPDATE_COMPLETE')
+    except Exception as e:
+        chk_exception = str(e)
+        if "does not Exist" in chk_exception:
+            logging.info("Creating Stack after the delete")
+            crt_response = client.create_stack(
+                TemplateURL=path,
+                StackName=stackname
+            )
+            logging.info("Verifying the stack status to create_complete")
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+            logging.info("Stack - {0} exists. SO updating the stack {0}".format(stackname))
+            response = client.update_stack(
+                TemplateURL=path,
+                StackName=stackname
+            )
+            logging.info("Issued update stack")
+            check_stack_status(stackname, stack_chk_value='UPDATE_COMPLETE')
+
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
     max_count = 120
