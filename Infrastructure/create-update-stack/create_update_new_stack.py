@@ -1,11 +1,10 @@
 import boto3
 import argparse
-
-import boto3
-import argparse
 import time
 import logging
 import sys
+import random
+from retrying import retry
 
 class error(Exception):
     def __init__(self, value):
@@ -27,78 +26,97 @@ path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-TemplateURL=path
-StackName=stack_name
+waiter = client.get_waiter('stack_exists')
+templateurl=path
+stackname=stack_name
+def stack_exists(stackname):
+    waiter.wait(
+        StackName=stackname,
+        WaiterConfig={
+            'Delay': 2,
+            'MaxAttempts': 5
+            }
+    )
+def check_stack_status(stackname,stack_chk_value):
+    min_count = 0
+    max_count = 60
+
+    while True and min_count <= max_count:
+        time.sleep(60)
+        min_count = min_count + 1
+        try:
+            response = client.describe_stacks(
+                StackName=stackname
+                )
+
+            chk_status=response['Stacks'][0]['StackStatus']
+            if stack_chk_value == chk_status:
+                logging.info("Stack status is {0}".format(stack_chk_value))
+                break
+        except:
+            logging.error("stack status has an error")
+            raise
+
+    return stack_chk_value
+
+
+def delete_stack(stackname):
+    response = client.delete_stack(
+        StackName=stackname)
 
 
 
-def create_stack(StackName,TemplateURL):
 
+
+@retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_delay=30000)
+def create_stack(stackname,path):
     try:
         response = client.create_stack(
-            StackName=stack_name, TemplateURL=path
-        )
-        print("inside try block")
-        print(stack_name)
-
-    except Exception as e:
-        print("inside exception block")
-
-        if "does not exist" in e:
-            print("inside does not exist if in exception not main")
-            create_stack(StackName,TemplateURL)
-        elif "Already exists" in e:
-            print("inside  exist if in exception not main")
-            delete_stack(StackName)
-
-
-def delete_stack(StackName):
-    response = client.delete_stack(
-        StackName=stack_name
-
-    )
-
-
-def check_stack_alive(stack_name):
-    print("inside alive block")
-    try:
-        response = client.describe_stacks(
-            StackName=stack_name
+            TemplateURL=path,
+            StackName=stackname
             )
-        print("inside try block")
-        print(stack_name)
-
-
+        check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
     except Exception as e:
-        print("inside exception block")
+        exception_value=str(e)
+        print("exception_value")
+        print(exception_value)
+        print("Inside exception block")
+        logging.info("error :{0}".format(exception_value))
+        if "AlreadyExistsException" in exception_value:
+            print("inside if block")
+            logging.info("stack:{0} already exists".format(stackname))
+            print("before delete")
+            delete_stack(stackname)
+            print("delete completed")
+            #pass
+            print ("strting to check stack status")
+            check_stack_status(stackname, stack_chk_value='DELETE_COMPLETE')
+            print ("stack status check complete")
+            print ("TRying to recreate the stack")
+            #pass
+            response = client.create_stack(
+                TemplateURL=path,
+                StackName=stackname
+            )
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+            print("create completed")
 
-        if "does not exist" in e:
-            print("inside does not exist if in exception not main")
-            create_stack(StackName,TemplateURL)
-        elif "Already exists" in e:
-            print("inside  exist if in exception not main")
-            delete_stack(StackName)
+
+
+
+
 
 
 def main():
-    print("inside mainblock")
     try:
-        print("inside try main block")
-        if stack_operation == "CREATE":
-            print("inside try if before create main block")
-            create_stack(StackName, TemplateURL)
-            print("inside try if after create before check status function in main main block")
-
-            check_stack_alive(StackName)
+        if stack_operation == 'CREATE':
+            create_stack(stackname, templateurl)
     except Exception as e:
-        if "does not exist" in e:
-            print("inside if in main")
-            create_stack(StackName,TemplateURL)
-        elif "Already exists" in e:
-            print("inside elif in main")
-            delete_stack(StackName)
+
+        logging.error("Something screwed up with stack creation")
+
+
+
 
 if __name__ == "__main__":
     main()
-
-
