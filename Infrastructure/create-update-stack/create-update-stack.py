@@ -59,17 +59,20 @@ def create_stack(stackname,path):
             logging.error("error - {0}".format(e))
             logging.error("Cannot create stack")
             raise
+def update_stack(stackname):
+    response = client.update_stack(
+        StackName=stack_name,
+        TemplateURL='string',
+        AccessControl=PublicRead
 
 
-
-
-
+    )
 def check_stack_status(stackname,stack_chk_value):
-
-
-    while True :
+    min_count = 0
+    max_count = 120
+    while  min_count <= max_count:
         time.sleep(30)
-
+        min_count = min_count + 1
         try:
             response = client.describe_stacks(
                 StackName=stackname
@@ -91,6 +94,8 @@ def check_stack_status(stackname,stack_chk_value):
 def main():
     if stack_operation == 'CREATE':
         create_stack(stack_name, args.s3path)
+    elif stack_operation == 'UPDATE':
+        update_stack(stack_name)
 
 if __name__ == "__main__":
     main()
