@@ -13,7 +13,7 @@ class error(Exception):
         return repr(self.value)
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
@@ -74,7 +74,8 @@ def check_stack_status(stackname,stack_chk_value):
                 break
         except Exception as e:
             error_string = str(e)
-            if "does not exist" in error_string:
+            if "ValidationError" in error_string:
+                logging.info("stack does not exist as it was deleted")
                 break
             else:
                 logging.error("stack status has an error")
