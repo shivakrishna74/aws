@@ -38,7 +38,8 @@ def create_stack(stackname,path):
         logging.info("Stack creation command issued")
         check_stack_status(stackname,stack_chk_value='CREATE_COMPLETE')
     except Exception as e:
-        if "AlreadyExistsException" in e:
+        chk_exception = str(e)
+        if "AlreadyExistsException" in chk_exception:
             logging.info("Stack - {0} exists. SO deleting the stack {0}".format(stackname))
             delete_response = client.delete_stack(
                 StackName=stackname)
