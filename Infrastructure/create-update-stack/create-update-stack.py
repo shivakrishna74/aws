@@ -67,24 +67,24 @@ def update_stack(stackname,path):
             TemplateURL=path,
             StackName=stackname
         )
-        logging.info("stack update command issued")
+        print("stack update command issued")
         check_stack_status(stackname, stack_chk_value='UPDATE_COMPLETE')
     except Exception as e:
         chk_exception = str(e)
         if "does not Exist" in chk_exception:
-            logging.info("Creating Stack after the delete")
+            print("Creating Stack after the delete")
             crt_response = client.create_stack(
                 TemplateURL=path,
                 StackName=stackname
             )
-            logging.info("Verifying the stack status to create_complete")
+            print("Verifying the stack status to create_complete")
             check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
-            logging.info("Stack - {0} exists. SO updating the stack {0}".format(stackname))
+            print("Stack - {0} exists. SO updating the stack {0}".format(stackname))
             response = client.update_stack(
                 TemplateURL=path,
                 StackName=stackname
             )
-            logging.info("Issued update stack")
+            print("Issued update stack")
             check_stack_status(stackname, stack_chk_value='UPDATE_COMPLETE')
 
 def check_stack_status(stackname,stack_chk_value):
