@@ -65,12 +65,11 @@ def create_stack(stackname,path):
 
 
 def check_stack_status(stackname,stack_chk_value):
-    min_count = 0
-    max_count = 120
 
-    while True and min_count <= max_count:
+
+    while True :
         time.sleep(30)
-        min_count = min_count + 1
+
         try:
             response = client.describe_stacks(
                 StackName=stackname
