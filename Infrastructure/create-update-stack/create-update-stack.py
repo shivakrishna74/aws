@@ -26,7 +26,7 @@ path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-ACL='public-read'
+
 
 
 
@@ -63,13 +63,7 @@ def create_stack(stackname,path):
             raise
 def update_stack(stackname):
     response = client.update_stack(
-        StackName=stack_name,
-        TemplateURL='string',
-        ACL='public-read'
-
-
-
-
+        StackName=stack_name
     )
 def check_stack_status(stackname,stack_chk_value):
     min_count = 0
