@@ -45,6 +45,14 @@ def create_stack(stackname,path):
                 StackName=stackname)
             logging.info("Issued delete stack")
             check_stack_status(stackname,stack_chk_value='DELETE_COMPLETE')
+            logging.info("Creating Stack after the delete")
+            crt_response = client.create_stack(
+                TemplateURL=path,
+                StackName=stackname
+            )
+            logging.info("Verifying the stack status to create_complete")
+            check_stack_status(stackname, stack_chk_value='CREATE_COMPLETE')
+
 
 
         else:
