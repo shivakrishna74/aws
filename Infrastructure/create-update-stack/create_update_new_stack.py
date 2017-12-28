@@ -83,6 +83,9 @@ def main():
     if stack_operation == 'CREATE':
         create_stack(stack_name, args.s3path)
 
+if __name__ == "__main__":
+    main()
+
 
 
 
