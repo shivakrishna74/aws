@@ -61,6 +61,7 @@ def create_stack(stackname,path):
             logging.error("error - {0}".format(e))
             logging.error("Cannot create stack")
             raise
+@retry(wait_fixed=30000)
 def update_stack(stackname,path):
     try:
         response = client.update_stack(
