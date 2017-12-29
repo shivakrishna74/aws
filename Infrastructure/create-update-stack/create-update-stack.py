@@ -113,10 +113,14 @@ def check_stack_status(stackname,stack_chk_value):
                 raise
 
 def main():
+    print("inside main")
     if stack_operation == 'CREATE':
         create_stack(stack_name, args.s3path)
+
     elif stack_operation == 'UPDATE':
+        print("inside elif function will be called")
         update_stack(stack_name,args.s3path)
+        print("inside elif function succcesfully called")
 
 if __name__ == "__main__":
     main()
