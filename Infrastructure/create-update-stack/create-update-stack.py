@@ -63,7 +63,9 @@ def create_stack(stackname,path):
             raise
 @retry(wait_fixed=30000)
 def update_stack(stackname,path):
+    print("inside update function")
     try:
+        print("inside update try")
         response = client.update_stack(
             TemplateURL=path,
             StackName=stackname
@@ -119,7 +121,7 @@ def main():
 
     elif stack_operation == 'UPDATE':
         print("inside elif function will be called")
-        update_stack(stack_name,args.s3path)
+        update_stack(stack_name,path)
         print("inside elif function succcesfully called")
 
 if __name__ == "__main__":
