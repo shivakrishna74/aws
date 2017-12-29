@@ -68,7 +68,8 @@ def update_stack(stackname,path):
         print("inside update try")
         response = client.update_stack(
             TemplateURL=path,
-            StackName=stackname
+            StackName=stackname,
+            UsePreviousTemplate=False
         )
         print("stack update command issued")
         check_stack_status(stackname, stack_chk_value='UPDATE_COMPLETE')
