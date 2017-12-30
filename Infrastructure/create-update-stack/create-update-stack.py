@@ -26,8 +26,11 @@ path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-log_level=args.logging_level
-logging.basicConfig(level=logging.log_level)
+log_level = args.logging_level
+if log_level == 'DEBUG':
+    logging.basicConfig(level=logging.DEBUG)
+if log_level == 'INFO':
+    logging.basicConfig(level=logging.INFO)
 
 print("after loggin level")
 @retry(wait_fixed=30000)
