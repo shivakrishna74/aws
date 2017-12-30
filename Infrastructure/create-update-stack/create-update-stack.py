@@ -13,21 +13,21 @@ class error(Exception):
         return repr(self.value)
 
 
-logging.basicConfig(level=logging.INFO)
+
 
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
 parser.add_argument('--s3path', type=str, help='Provide the s3 file path')
 parser.add_argument('--stack_operation', type=str, help='provide the stack operation')
-
+parser.add_argument('--logging_level', type=str, help='provide the stack operation')
 args = parser.parse_args()
 path=args.s3path
 stack_name = args.env + '-' + args.filename
 stack_operation=args.stack_operation
 client = boto3.client('cloudformation', region_name='us-east-1')
-
-
+log_level=args.logging_level
+logging.basicConfig(level=logging.log_level)
 
 
 @retry(wait_fixed=30000)
