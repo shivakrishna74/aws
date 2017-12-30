@@ -29,7 +29,7 @@ client = boto3.client('cloudformation', region_name='us-east-1')
 log_level=args.logging_level
 logging.basicConfig(level=logging.log_level)
 
-
+print("after loggin level")
 @retry(wait_fixed=30000)
 def create_stack(stackname,path):
     try:
