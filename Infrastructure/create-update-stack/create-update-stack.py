@@ -5,16 +5,11 @@ import logging
 import sys
 import random
 from retrying import retry
-
 class error(Exception):
     def __init__(self, value):
         self.value = value
     def __str__(self):
         return repr(self.value)
-
-
-
-
 parser = argparse.ArgumentParser(description='create update stack')
 parser.add_argument('--env', type=str, help='Provide the environment')
 parser.add_argument('--filename', type=str, help='Provide the filename')
@@ -33,7 +28,7 @@ if log_level == 'INFO':
     logging.basicConfig(level=logging.INFO)
 
 print("after loggin level")
-@retry(wait_fixed=30000)
+#@retry(wait_fixed=30000)
 def create_stack(stackname,path):
     try:
         crt_response = client.create_stack(
@@ -64,7 +59,7 @@ def create_stack(stackname,path):
             logging.error("error - {0}".format(e))
             logging.error("Cannot create stack")
             raise
-@retry(wait_fixed=30000)
+#@retry(wait_fixed=30000)
 def update_stack(stackname,path):
     print("inside update function")
     try:
